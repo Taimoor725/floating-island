@@ -6,7 +6,7 @@ import { useThree, useFrame } from '@react-three/fiber'
 // import islandScean from "../public/3d/island.glb"
 import { a } from '@react-spring/three'
 
-const Island = ({ isRotating, setRotating, ...props }) => {
+const Island = ({ isRotating, setRotating,setCurrentStage, ...props }) => {
     //   const { nodes, materials } = useGLTF('/foxs_islands.glb')
 
     const { nodes, materials } = useGLTF('/3d/island.glb')
@@ -16,7 +16,7 @@ const Island = ({ isRotating, setRotating, ...props }) => {
     const dampingFactor = 0.95;
     const islandRef = useRef();
     let rotation;
-    const [currentStage, setCurrentStage] = useState(0);
+    // const [currentStage, setCurrentStage] = useState(0);
 
 
     const handelPointerDown = (e) => {
@@ -101,6 +101,8 @@ const Island = ({ isRotating, setRotating, ...props }) => {
                 rotationSpeed.current = 0;
             }
            islandRef.current.rotation.y += rotationSpeed.current; 
+            rotation = islandRef.current.rotation.y;
+
         }
         else {
             rotation = islandRef.current.rotation.y;
