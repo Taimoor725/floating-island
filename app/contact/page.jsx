@@ -1,26 +1,43 @@
-import React from 'react'
+"use client"
+
+import React, { Suspense, useRef, useState } from "react"
+import { Canvas } from "@react-three/fiber"
+
+import Loader from "@/components/Loader"
+import Fox from "@/models/Fox"
+import { useReducer } from "react"
 
 function Contact() {
+
+  const currentAnimation  = useRef('idle')
+
+  const handleFocus = () => {
+    currentAnimation.current = "walk"
+  }
+
+  const handleBlur = () => {
+    currentAnimation.current = 'idle'
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    currentAnimation.current = "hit"
+
+
+    setTimeout(() => {
+        currentAnimation.current = 'idle'
+    }, 3000)
+  }
+
   return (
     <section className="relative w-full h-screen flex items-center justify-center px-4 pt-28 pb-10">
 
-      {/* ── CARD WRAPPER ── */}
-      <div className="
-        relative
-        w-full max-w-6xl
-        flex flex-col lg:flex-row
-        rounded-2xl
-        border border-cyan-400/25
-        bg-black/65
-        backdrop-blur-xl
-        shadow-[0_0_50px_rgba(34,211,238,0.10)]
-        overflow-hidden
-      ">
-
-        {/* ── LEFT — FORM ── */}
-        <div className="w-full lg:w-1/2 px-7 sm:px-10 py-8 flex flex-col gap-5">
-
-          {/* Heading */}
+      <div className="relative w-full max-w-6xl flex flex-col lg:flex-row rounded-2xl border border-cyan-400/25 bg-black/65 backdrop-blur-xl shadow-[0_0_50px_rgba(34,211,238,0.10)] overflow-hidden">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full lg:w-1/2 px-7 sm:px-10 py-8 flex flex-col gap-5"
+        >
           <div>
             <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/25 mb-3">
               <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse flex-shrink-0" />
@@ -36,10 +53,7 @@ function Contact() {
             </p>
           </div>
 
-          {/* Fields */}
           <div className="flex flex-col gap-3.5">
-
-            {/* Name */}
             <div className="flex flex-col gap-1.5">
               <label className="text-cyan-300 text-[11px] font-semibold uppercase tracking-wider">
                 Name
@@ -47,20 +61,12 @@ function Contact() {
               <input
                 type="text"
                 placeholder="Taimoor Tanveer"
-                className="
-                  bg-white/[0.06]
-                  border border-cyan-400/25
-                  rounded-xl
-                  px-4 py-2.5
-                  text-white text-sm
-                  placeholder-gray-400
-                  focus:outline-none focus:border-cyan-400/70 focus:bg-white/10
-                  transition duration-200
-                "
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                className="bg-white/[0.06] border border-cyan-400/25 rounded-xl px-4 py-2.5 text-white text-sm placeholder-gray-400 focus:outline-none focus:border-cyan-400/70 focus:bg-white/10 transition duration-200"
               />
             </div>
 
-            {/* Email */}
             <div className="flex flex-col gap-1.5">
               <label className="text-cyan-300 text-[11px] font-semibold uppercase tracking-wider">
                 Email
@@ -68,20 +74,12 @@ function Contact() {
               <input
                 type="email"
                 placeholder="taimoor725tanveer@gmail.com"
-                className="
-                  bg-white/[0.06]
-                  border border-cyan-400/25
-                  rounded-xl
-                  px-4 py-2.5
-                  text-white text-sm
-                  placeholder-gray-400
-                  focus:outline-none focus:border-cyan-400/70 focus:bg-white/10
-                  transition duration-200
-                "
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                className="bg-white/[0.06] border border-cyan-400/25 rounded-xl px-4 py-2.5 text-white text-sm placeholder-gray-400 focus:outline-none focus:border-cyan-400/70 focus:bg-white/10 transition duration-200"
               />
             </div>
 
-            {/* Message */}
             <div className="flex flex-col gap-1.5">
               <label className="text-cyan-300 text-[11px] font-semibold uppercase tracking-wider">
                 Your Message
@@ -89,57 +87,60 @@ function Contact() {
               <textarea
                 rows={4}
                 placeholder="Write your message here..."
-                className="
-                  bg-white/[0.06]
-                  border border-cyan-400/25
-                  rounded-xl
-                  px-4 py-2.5
-                  text-white text-sm
-                  placeholder-gray-400
-                  focus:outline-none focus:border-cyan-400/70 focus:bg-white/10
-                  transition duration-200
-                  resize-none
-                "
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                className="bg-white/[0.06] border border-cyan-400/25 rounded-xl px-4 py-2.5 text-white text-sm placeholder-gray-400 focus:outline-none focus:border-cyan-400/70 focus:bg-white/10 transition duration-200 resize-none"
               />
             </div>
-
           </div>
 
-          {/* Submit */}
-          <button className="
-            w-full sm:w-auto
-            px-8 py-2.5
-            bg-cyan-500
-            hover:bg-cyan-400
-            active:bg-cyan-600
-            text-white
-            text-lg font-semibold
-            rounded-xl
-            transition-colors duration-200
-            shadow-lg shadow-cyan-500/20
-          ">
+          <button
+            type="submit"
+            className="w-full sm:w-auto px-8 py-2.5 bg-cyan-500 hover:bg-cyan-400 active:bg-cyan-600 text-white text-lg font-semibold rounded-xl transition-colors duration-200 shadow-lg shadow-cyan-500/20"
+          >
             Send Message
           </button>
 
-        </div>
+        </form>
 
-        {/* ── DIVIDER — desktop only ── */}
+        {/* DIVIDER */}
         <div className="hidden lg:flex w-px self-stretch">
           <div className="w-full bg-gradient-to-b from-transparent via-cyan-400/40 to-transparent" />
         </div>
 
-        {/* ── RIGHT — 3D MODEL ── */}
-        <div className="
-          w-full lg:w-1/2
-          min-h-[240px] lg:min-h-0
-          flex items-center justify-center
-          border-t border-cyan-400/15 lg:border-t-0
-        ">
-          {/* drop your 3D canvas here */}
-          <p className="text-gray-600 text-sm tracking-wide">3D model</p>
+
+
+
+        <div className="w-full lg:w-1/2 min-h-[240px] lg:min-h-0 flex items-center justify-center border-t border-cyan-400/15 lg:border-t-0">
+          <Canvas
+            className="w-full h-full bg-white"
+            camera={{
+              position: [5, 2, 8],
+              near: 0.1,
+              far: 100,
+              fov: 75
+            }}
+          >
+
+            <Suspense fallback={<Loader />}>
+
+              <ambientLight intensity={1} />
+
+              <directionalLight
+                position={[0, 5, 5]}
+                intensity={2}
+              />
+
+              <Fox currentAnimation={currentAnimation} />
+
+            </Suspense>
+
+          </Canvas>
+
         </div>
 
       </div>
+
     </section>
   )
 }
