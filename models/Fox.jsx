@@ -1,21 +1,34 @@
 import React, { useEffect, useRef } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
+import { useFrame } from '@react-three/fiber'
 
 export function Fox({currentAnimation , ...props}) {
   const group = useRef()
   const { nodes, materials, animations } = useGLTF('/3d/fox.glb')
   const { actions } = useAnimations(animations, group)
-  console.log(actions)
+  // console.log(actions)
+
+
+  const activeAnim = useRef(null)
 
 useEffect(() => {
-  Object.values(actions).forEach((action) => action.stop());
+    if (actions['idle']){
+      actions['idle'].play()
+    } 
+    activeAnim.current = 'idle'
+  }, [actions])
 
-  const animName = currentAnimation.current;  // read .current inside effect
-
-  if (actions[animName]) {
-    actions[animName].play();                 // consistent key
-  }
-}, [actions]);                                // ← ref object, NOT .current
+  useFrame(() => {
+    const desired = currentAnimation.current
+    if (desired !== activeAnim.current && actions[desired]) {
+      // Stop current, play new
+      if (activeAnim.current && actions[activeAnim.current]) {
+        actions[activeAnim.current].fadeOut(0.3)
+      }
+      actions[desired].reset().fadeIn(0.3).play()
+      activeAnim.current = desired
+    }
+  })                             
 
   return (
     <group ref={group} {...props} dispose={null}>

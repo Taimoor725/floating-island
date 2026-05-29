@@ -5,7 +5,6 @@ import { Canvas } from "@react-three/fiber"
 
 import Loader from "@/components/Loader"
 import Fox from "@/models/Fox"
-import { useReducer } from "react"
 
 function Contact() {
 
