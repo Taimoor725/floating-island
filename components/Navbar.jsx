@@ -52,9 +52,9 @@ function Navbar() {
 
         {/* ── Nav Links ── */}
         <nav className="flex items-center gap-3 sm:gap-5 md:gap-6">
-          <NavLink to="/"        className={navLinkStyles}>Home</NavLink>
-          <NavLink to="/about"   className={navLinkStyles}>About</NavLink>
-          <NavLink to="/projects" className={navLinkStyles}>Projects</NavLink>
+          <NavLink to="/" className={navLinkStyles}>Home</NavLink>
+          {/* <NavLink to="/about"   className={navLinkStyles}>About</NavLink> */}
+          {/* <NavLink to="/projects" className={navLinkStyles}>Projects</NavLink> */}
           <NavLink to="/contact" className={navLinkStyles}>Contact</NavLink>
         </nav>
 
